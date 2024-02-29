@@ -2,6 +2,9 @@ import AppLayout from '@/components/Layouts/AppLayout'
 import axios from 'axios'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Button, CardMedia, Typography } from '@mui/material';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -14,7 +17,7 @@ const Home = () => {
                 setMovies(response.data.results);
                 console.log(movies);
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         }
         fetchMovies();
@@ -31,9 +34,51 @@ const Home = () => {
                 <title>Laravel - Home</title>
             </Head>
 
-            {movies.map((movie) => (
-                <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} key={movie.id} />
-            ))}
+            <Swiper
+            spaceBetween={20}
+            slidesPerView={5}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+            breakpoints={{
+                0: {
+                    slidesPerView: 1,
+                },
+                500: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 4,
+                    spaceBetween: 40,
+                },
+                1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 50,
+                },
+            }}
+            >
+                {movies.map((movie) => (
+                    <SwiperSlide key={movie.id}>
+                        <CardMedia
+                            component={"img"}
+                            sx={{
+                                aspectRatio: '2/3',
+                            }}
+                            image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                            alt={movie.title}
+                        />
+                        <Typography>
+                            公開日：{movie.release_date}
+                        </Typography>
+                    </SwiperSlide>
+                ))}
+
+            </Swiper>
+
         </AppLayout>
     )
 }
