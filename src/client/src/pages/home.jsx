@@ -32,7 +32,7 @@ const Home = () => {
                 </h2>
             }>
             <Head>
-                <title>Laravel - Home</title>
+                <title>Home</title>
             </Head>
 
             <Swiper
