@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Button, CardActionArea, CardMedia, Typography } from '@mui/material';
 import Link from 'next/link';
+import SearchBar from '@/components/SearchBar';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -14,7 +15,6 @@ const Home = () => {
         const fetchMovies = async () => {
             try {
                 const response = await axios.get('api/getPopularMovies');
-                // console.log(response.data.results);
                 setMovies(response.data.results);
                 console.log(movies);
             } catch (error) {
@@ -34,6 +34,8 @@ const Home = () => {
             <Head>
                 <title>Home</title>
             </Head>
+
+            <SearchBar />
 
             <Swiper
             spaceBetween={20}
