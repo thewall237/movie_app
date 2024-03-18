@@ -12,7 +12,8 @@ const detail = ({ detail, media_type, media_id }) => {
   const [rating, setRating] =  useState(0);
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
-  
+  const [averageRating, setAverageRating] = useState(null);
+
   const handleOpen = () => {
     setOpen(true);
   }
@@ -58,7 +59,7 @@ const detail = ({ detail, media_type, media_id }) => {
       // レビューの星の数の合計値を計算
       const totalRating = updatedReviews.reduce((acc, review) => acc + review.rating, 0);
       const average = (totalRating / updatedReviews.length).toFixed(1);
-      console.log(average)
+      setAverageRating(average);
     }
 
   }
@@ -66,7 +67,9 @@ const detail = ({ detail, media_type, media_id }) => {
       const fetchReviews = async() => {
           try {
             const response = await laravelAxios.get(`api/reviews/${media_type}/${media_id}`);
-            setReviews(response.data);
+            const fetchReviews = response.data;
+            setReviews(fetchReviews);
+            updateAverageRating(fetchReviews);
           }catch(error){
               console.log(error);
           }
@@ -138,6 +141,7 @@ const detail = ({ detail, media_type, media_id }) => {
                 <Rating
                   readOnly
                   precision={0.5}
+                  value={parseFloat(averageRating)}
                   emptyIcon={<StarIcon style={{color: "white"}}/>}
                 />
                 <Typography
@@ -147,7 +151,7 @@ const detail = ({ detail, media_type, media_id }) => {
                     fontWeight: "bold"
                   }}
                 >
-                  3
+                  {averageRating}
                 </Typography>
               </Box>
               <Typography variant='h6'>
@@ -195,6 +199,8 @@ const detail = ({ detail, media_type, media_id }) => {
                                 >
                                     {review.content}
                                 </Typography>
+
+                                
                             </CardContent>
                         </Card>
                   </Grid>
