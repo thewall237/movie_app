@@ -21,3 +21,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::get('reviews/{media_tye}/{media_id}', [ReviewController::class, 'index']);
 Route::post('reviews/', [ReviewController::class, 'store']);
+Route::delete('review/{review}', [ReviewController::class, 'destroy']);
+Route::put('review/{review}', [ReviewController::class, 'update']);
+
